@@ -1,0 +1,33 @@
+version: "3.3"
+services:
+  ollama:
+    image: ollama/ollama
+    restart: unless-stopped
+    volumes:
+      - ./data/ollama:/root/.ollama
+    ports:
+      - 11434:11434
+    networks:
+      - ollama-net
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    restart: unless-stopped
+    volumes:
+      - ./data/open-webui:/app/backend/data
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+    ports:
+      - 8080:8080
+    networks:
+      - ollama-net
+
+networks:
+  ollama-net:
