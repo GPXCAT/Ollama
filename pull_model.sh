@@ -1,4 +1,5 @@
 # https://ollama.com/library
+docker compose exec ollama ollama pull llama3
 docker compose exec ollama ollama pull llama2
 docker compose exec ollama ollama pull mistral
 docker compose exec ollama ollama pull dolphin-phi
